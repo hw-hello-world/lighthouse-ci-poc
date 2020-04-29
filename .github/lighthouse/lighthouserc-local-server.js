@@ -7,7 +7,7 @@ module.exports = {
         "http://localhost:5000/",
       ],
       "settings": {
-        "configPath": "./github/lighthouse/lighthouse-custom-config.js",
+        "configPath": ".github/lighthouse/lighthouse-custom-config.js",
       }
     },
     "assert": {
