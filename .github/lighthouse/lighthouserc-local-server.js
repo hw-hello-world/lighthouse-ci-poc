@@ -1,13 +1,13 @@
 module.exports = {
   "ci": {
     "collect": {
-      "startServerCommand": "cd lighthouse-demo-app && yarn start-prod",
+      "startServerCommand": "yarn start-prod",
       "numberOfRuns": 1,
       "url": [
         "http://localhost:5000/",
       ],
       "settings": {
-        "configPath": "./lighthouse-custom-config.js",
+        "configPath": "./github/lighthouse/lighthouse-custom-config.js",
       }
     },
     "assert": {
