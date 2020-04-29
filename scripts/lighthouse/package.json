@@ -1,0 +1,15 @@
+{
+  "name": "lighthouse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lighthouse-custom-config.js",
+  "scripts": {
+    "test": "lhci collect"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@lhci/cli": "^0.3.14"
+  }
+}
