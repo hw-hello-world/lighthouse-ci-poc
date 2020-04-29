@@ -9,7 +9,8 @@ module.exports = {
       'performance',
       'accessibility',
       'best-practices',
-      //'pwa'
+      // 'pwa',
+      // 'seo'
     ],
     skipAudits: [
       // category: 'best-practices'
