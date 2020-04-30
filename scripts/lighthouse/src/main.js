@@ -72,7 +72,7 @@ const main = (async (username) => {
 
   await browser.close();
 
-  fs.writeFileSync(`${resultDump}/${username}-${Date.now()}.json`, JSON.stringify(lhr, null, 2));
+  fs.writeFileSync(`${resultDump}/lhr-${Date.now()}.json`, JSON.stringify(lhr, null, 2));
 
   return {
     username: `${username}`,
