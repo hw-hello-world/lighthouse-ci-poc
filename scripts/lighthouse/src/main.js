@@ -1,10 +1,10 @@
 const R = require('ramda');
 const puppeteer = require('puppeteer');
 const lighthouse = require('lighthouse');
-const {URL} = require('url');
-const oktaTenant = 'https://00.trexcloud.com/';
-
+const { URL } = require('url');
 const lighthouseConfig = require('./lighthouse-config.js');
+
+// Metrics we care
 const categories = [
   'performance',
   'accessibility',
@@ -20,6 +20,8 @@ const audits = [
   'max-potential-fid',
 ];
 
+// Test Org
+const oktaTenant = 'https://00.trexcloud.com/';
 const usernames = [
   'user0app@00.trexcloud.com',
   'user10app@00.trexcloud.com',
@@ -28,10 +30,16 @@ const usernames = [
   'user200app@00.trexcloud.com',
   'user500app@00.trexcloud.com',
 ];
+
+if (!process.env.ADMIN_PWD) {
+  console.log('ADMIN_PWD is not set hence halts the program.');
+  process.exit(1);
+}
+
 const password = process.env.ADMIN_PWD;
 
+// Use puppeteer to open Chrome and run lighthouse.
 const main = (async (username) => {
-  // Use Puppeteer to launch headful Chrome and don't use its default 800x600 viewport.
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
@@ -55,25 +63,32 @@ const main = (async (username) => {
   await browser.close();
 
   return {
-    [`${username}`]: {
-      scores: R.compose(
-        R.map(R.multiply(100)),
-        R.map(R.prop('score')),
-        R.pick(categories)
-      )(lhr.categories),
-      audits: R.compose(
-        R.map(R.prop('displayValue')),
-        R.pick(audits)
-      )(lhr.audits),
-    }
+    username: `${username}`,
+    scores: R.compose(
+      R.map(R.multiply(100)),
+      R.map(R.prop('score')),
+      R.pick(categories)
+    )(lhr.categories),
+    audits: R.compose(
+      R.map(R.prop('displayValue')),
+      R.pick(audits)
+    )(lhr.audits),
   };
 });
 
+// Generates result in CSV format.
+// Maybe save into files.
 (async () => {
   const result = [];
-  for (let i = 0; i < usernames.length-4; i++) {
+  for (let i = 0; i < usernames.length; i++) {
     let s = await main(usernames[i]);
     result.push(s);
   }
-  console.log(JSON.stringify(result, null, 2));
+
+  console.log(`Users, ${categories.join(', ')}, ${audits.join(', ')}`);
+  result.forEach(r => {
+    const categoriesScores = categories.map(c => r.scores[c]).join(', ');
+    const auditScores = audits.map(a => r.audits[a]).join(', ');
+    console.log(`${r.username}, ${categoriesScores}, ${auditScores}`);
+  });
 })();

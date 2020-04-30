@@ -1,3 +1,5 @@
+// config for lighthouse-cli
+
 module.exports = {
   "ci": {
     "collect": {

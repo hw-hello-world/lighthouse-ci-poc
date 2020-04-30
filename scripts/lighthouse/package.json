@@ -2,11 +2,11 @@
   "name": "lighthouse",
   "version": "1.0.0",
   "description": "",
-  "main": "lighthouse-custom-config.js",
+  "main": "main.js",
   "scripts": {
-    "start": "node main.js",
-    "test": "lhci collect",
-    "report-local": "lhci open --no-lighthouserc"
+    "test-trexcloud": "node src/main.js",
+    "test-cli": "lhci collect",
+    "report-cli": "lhci open --no-lighthouserc"
   },
   "keywords": [],
   "author": "",
