@@ -94,7 +94,7 @@ const main = (async (username) => {
 // Maybe save into files.
 (async () => {
   const result = [];
-  for (let i = 5; i > usernames.length-2; i--) {
+  for (let i = 0; i < usernames.length-3; i++) {
     let s = await main(usernames[i]);
     result.push(s);
   }
