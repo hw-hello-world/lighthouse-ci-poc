@@ -4,12 +4,16 @@
   "description": "",
   "main": "lighthouse-custom-config.js",
   "scripts": {
-    "test": "lhci collect"
+    "start": "node main.js",
+    "test": "lhci collect",
+    "report-local": "lhci open --no-lighthouserc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@lhci/cli": "^0.3.14"
+    "@lhci/cli": "^0.3.14",
+    "puppeteer": "^3.0.2",
+    "ramda": "^0.27.0"
   }
 }

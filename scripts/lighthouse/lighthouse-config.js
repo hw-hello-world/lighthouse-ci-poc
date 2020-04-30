@@ -5,6 +5,9 @@
 module.exports = {
   extends: 'lighthouse:default',
   settings: {
+
+    emulatedFormFactor: "desktop",
+
     onlyCategories: [
       'performance',
       'accessibility',
@@ -12,11 +15,11 @@ module.exports = {
       // 'pwa',
       // 'seo'
     ],
+
     skipAudits: [
       // category: 'best-practices'
-      'uses-http2',
-
-      'uses-long-cache-ttl',
+      //'uses-http2',
+      //'uses-long-cache-ttl',
     ],
   },
 };

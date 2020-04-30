@@ -1,11 +1,12 @@
 module.exports = {
   "ci": {
     "collect": {
-      "startServerCommand": "cd ../../ && yarn start-prod",
-      "numberOfRuns": 1,
-      "url": [
-        "http://localhost:5000/",
-      ],
+      //"startServerCommand": "cd ../../ && yarn start-prod",
+      // "url": [
+      //   "http://localhost:5000/",
+      // ],
+
+      "numberOfRuns": 2,
       "settings": {
         "configPath": "custom-config.js",
       }
