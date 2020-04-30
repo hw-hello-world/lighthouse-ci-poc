@@ -67,12 +67,14 @@ const main = (async (username) => {
     scores: R.compose(
       R.map(R.multiply(100)),
       R.map(R.prop('score')),
-      R.pick(categories)
-    )(lhr.categories),
+      R.pick(categories),
+      R.prop('categories'),
+    )(lhr),
     audits: R.compose(
       R.map(R.prop('displayValue')),
-      R.pick(audits)
-    )(lhr.audits),
+      R.pick(audits),
+      R.prop('audits'),
+    )(lhr),
   };
 });
 
