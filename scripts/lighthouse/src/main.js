@@ -38,6 +38,16 @@ if (!process.env.ADMIN_PWD) {
 
 const password = process.env.ADMIN_PWD;
 
+
+const fs = require('fs');
+const resultDump = '.lighthouseci';
+
+if (!fs.existsSync(resultDump)){
+  fs.mkdirSync(resultDump);
+}
+
+
+const timestampNow = Date.now();
 // Use puppeteer to open Chrome and run lighthouse.
 const main = (async (username) => {
   const browser = await puppeteer.launch({
@@ -62,6 +72,8 @@ const main = (async (username) => {
 
   await browser.close();
 
+  fs.writeFileSync(`${resultDump}/${username}-${Date.now()}.json`, JSON.stringify(lhr, null, 2));
+
   return {
     username: `${username}`,
     scores: R.compose(
@@ -82,7 +94,7 @@ const main = (async (username) => {
 // Maybe save into files.
 (async () => {
   const result = [];
-  for (let i = 0; i < usernames.length; i++) {
+  for (let i = 0; i < usernames.length-4; i++) {
     let s = await main(usernames[i]);
     result.push(s);
   }

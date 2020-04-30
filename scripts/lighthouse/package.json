@@ -1,19 +1,22 @@
 {
-  "name": "lighthouse",
+  "name": "automate-lighthouse-test-poc",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
   "scripts": {
     "test-trexcloud": "node src/main.js",
-    "test-cli": "lhci collect",
-    "report-cli": "lhci open --no-lighthouserc"
+    "test-cli": "lhci collect --url=https://hw2.trexcloud.com",
+    "report-cli": "lhci open --no-lighthouserc",
+    "start-cli-server": "lhci server --storage.storageMethod=sql --storage.sqlDialect=sqlite --storage.sqlDatabasePath=./lhci-server-db.sql --port 9988"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@lhci/cli": "^0.3.14",
+    "@lhci/server": "^0.3.14",
     "puppeteer": "^3.0.2",
-    "ramda": "^0.27.0"
+    "ramda": "^0.27.0",
+    "sqlite3": "^4.2.0"
   }
 }
