@@ -1,3 +1,4 @@
+const fs = require('fs');
 const R = require('ramda');
 const puppeteer = require('puppeteer');
 const lighthouse = require('lighthouse');
@@ -22,6 +23,7 @@ const audits = [
 
 // Test Org
 const oktaTenant = 'https://00.trexcloud.com/';
+const oktaTenantURL = new URL(oktaTenant);
 const usernames = [
   'user0app@00.trexcloud.com',
   'user10app@00.trexcloud.com',
@@ -35,11 +37,9 @@ if (!process.env.ADMIN_PWD) {
   console.log('ADMIN_PWD is not set hence halts the program.');
   process.exit(1);
 }
-
 const password = process.env.ADMIN_PWD;
 
 
-const fs = require('fs');
 const resultDump = '.lighthouseci';
 
 if (!fs.existsSync(resultDump)){
@@ -47,7 +47,6 @@ if (!fs.existsSync(resultDump)){
 }
 
 
-const timestampNow = Date.now();
 // Use puppeteer to open Chrome and run lighthouse.
 const main = (async (username) => {
   const browser = await puppeteer.launch({
@@ -72,7 +71,9 @@ const main = (async (username) => {
 
   await browser.close();
 
-  fs.writeFileSync(`${resultDump}/lhr-${Date.now()}.json`, JSON.stringify(lhr, null, 2));
+  // save the entire lighthouse audit result.
+  // TODO how useful?
+  fs.writeFileSync(`${resultDump}/${oktaTenantURL.hostname}-${username}-${Date.now()}.json`, JSON.stringify(lhr, null, 2));
 
   return {
     username: `${username}`,
@@ -91,18 +92,20 @@ const main = (async (username) => {
 });
 
 // Generates result in CSV format.
-// Maybe save into files.
 (async () => {
   const result = [];
-  for (let i = 0; i < usernames.length-3; i++) {
+  for (let i = 0; i < usernames.length-4; i++) {
     let s = await main(usernames[i]);
     result.push(s);
   }
 
-  console.log(`Users, ${categories.join(', ')}, ${audits.join(', ')}`);
-  result.forEach(r => {
+  // Maybe use a CSV npm module.
+  const csvRows = result.map(r => {
     const categoriesScores = categories.map(c => r.scores[c]).join(', ');
     const auditScores = audits.map(a => r.audits[a]).join(', ');
-    console.log(`${r.username}, ${categoriesScores}, ${auditScores}`);
+    return `${r.username}, ${categoriesScores}, ${auditScores}`;
   });
+  csvRows.unshift(`Users, ${categories.join(', ')}, ${audits.join(', ')}`);
+
+  fs.writeFileSync(`${oktaTenantURL.hostname}-${Date.now()}.csv`, csvRows.join('\r\n'));
 })();
