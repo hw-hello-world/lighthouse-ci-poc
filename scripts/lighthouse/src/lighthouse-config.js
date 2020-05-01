@@ -17,9 +17,8 @@ module.exports = {
     ],
 
     skipAudits: [
-      // category: 'best-practices'
-      //'uses-http2',
-      //'uses-long-cache-ttl',
+      'first-meaningful-paint',
+      'first-cpu-idle'
     ],
   },
 };

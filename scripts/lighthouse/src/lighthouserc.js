@@ -10,7 +10,7 @@ module.exports = {
 
       "numberOfRuns": 2,
       "settings": {
-        "configPath": "custom-config.js",
+        "configPath": "./src/lighthouse-config.js",
       }
     },
     "assert": {

@@ -5,13 +5,18 @@
   "main": "main.js",
   "scripts": {
     "test-trexcloud": "node src/main.js",
-    "test-cli": "lhci collect --url=https://hw2.trexcloud.com",
+    "test-cli": "lhci collect --url=https://hw2.trexcloud.com --config src/lighthouserc.js",
     "report-cli": "lhci open --no-lighthouserc",
     "start-cli-server": "lhci server --storage.storageMethod=sql --storage.sqlDialect=sqlite --storage.sqlDatabasePath=./lhci-server-db.sql --port 9988"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "files": [
+    "src/",
+    "package.json",
+    "yarn.lock"
+  ],
   "devDependencies": {
     "@lhci/cli": "^0.3.14",
     "@lhci/server": "^0.3.14",

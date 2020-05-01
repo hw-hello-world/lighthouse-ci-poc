@@ -14,11 +14,10 @@ const categories = [
 
 const audits = [
   'first-contentful-paint',
-  'first-meaningful-paint',
   'speed-index',
   'interactive',
-  'first-cpu-idle',
   'max-potential-fid',
+  'total-blocking-time',
 ];
 
 // Test Org
@@ -94,7 +93,7 @@ const main = (async (username) => {
 // Generates result in CSV format.
 (async () => {
   const result = [];
-  for (let i = 0; i < usernames.length-4; i++) {
+  for (let i = 0; i < usernames.length; i++) {
     let s = await main(usernames[i]);
     result.push(s);
   }
@@ -107,5 +106,7 @@ const main = (async (username) => {
   });
   csvRows.unshift(`Users, ${categories.join(', ')}, ${audits.join(', ')}`);
 
-  fs.writeFileSync(`${oktaTenantURL.hostname}-${Date.now()}.csv`, csvRows.join('\r\n'));
+  const csvFileName = `${oktaTenantURL.hostname}-${Date.now()}.csv`;
+  fs.writeFileSync(csvFileName, csvRows.join('\r\n'));
+  console.log(`>>> Metric has been saved to ${csvFileName}. <<<`);
 })();
